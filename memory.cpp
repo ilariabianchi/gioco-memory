@@ -6,7 +6,7 @@ using namespace std;
 int main(int argc, char** argv){
 	
 	srand(time(NULL));
-	cout<<"GIOCO DEL MEMORY!!";
+	cout<<"GIOCO DEL MEMORY!!\n";
 	
 	//generare casualmente la dimensione della matrice
 	int dim_tabella=rand()%3+4;
@@ -43,3 +43,4 @@ int main(int argc, char** argv){
 
 	return 0;
 }
+
