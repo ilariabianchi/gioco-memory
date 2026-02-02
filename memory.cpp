@@ -11,15 +11,15 @@ void genera_coppie(char carte[], int d){
 	//tengo traccia delle lettere che uso
 	int lettere_usate[26]={0};
 	
-	for(int i=0; i<d; i++){
+	for(int i=0; i<d/2; i++){
 		
 		//genera lettere casuali
 		//trasforma il numero di rand in una lettera secondo la tebella ascii
 		char caratteri_casuali=rand()%26+65;
 		//se la lettera generata è libera la metto se no la rigenero
 		if(lettere_usate[caratteri_casuali-65]==1){
-		i--;
-		continue;
+			i--;
+			continue;
 		}
 		//inserisco la lettera nella posizione dell'array
 		carte[conta_carte]=caratteri_casuali;
@@ -37,6 +37,20 @@ void genera_coppie(char carte[], int d){
 		}	
 	}		
 }
+// funzione che mescola le lettere generate
+void mescola_lettere(char carte[], int d){
+	
+	//ciclo che si ripete tante volte quante la dimensione
+	for(int i=0; i<d; i++){
+		//prendo una posizione casuale dell'array compresa tra la dimensiomne
+		int mescola=rand()%d;
+		//adesso scambio la lettera nella posizione i nella posizione casuale che ho generato
+		char ordine_casuale=carte[i];
+        carte[i]=carte[mescola];
+        carte[mescola]=ordine_casuale;
+	}
+	
+}
 
 
 int main(int argc, char** argv){
@@ -45,13 +59,12 @@ int main(int argc, char** argv){
 	cout<<"GIOCO DEL MEMORY!!\n\n";
 	
 	//generare casualmente la dimensione della matrice
-	int dimensione=rand()%4+3;
-	cout<<"dimensione: "<<dimensione<<'*'<<dimensione<<endl;
+	int dimensione=rand()%4+4;
 	//matrice quadrata di caratteri 
 	//metto la grandezza al massimo e utilizzo solo quelle che mi servono
 	char tabella[7][7];
-	
-	char carte[24];
+	//dichiaro l'array carte con il massimo possibile
+	char carte[49];
 	int d=dimensione*dimensione;
 	
 	//azzero array
@@ -63,10 +76,18 @@ int main(int argc, char** argv){
 		}
 	}
 	cout<<"le coppie da indovinare sono: "<<dimensione*dimensione/2<<endl<<endl;
-	//richiamo la funzione
+	//richiamo le funzioni
 	genera_coppie(carte, d);
-	for(int i=0; i<d; i++) {
-        cout<<carte[i]<<" ";
+	mescola_lettere(carte, d);
+	//stampo le carte
+	//colonna parte da 0 e incrementa ogni volta che stampo il numero, quando raggiunge un multiplo del numero (dimensione) va a capo
+	int colonna=0;
+	for(int i=0; i<d; i++){
+        cout<<carte[i]<<"    ";
+        colonna++;
+        if(colonna%dimensione==0){
+        	cout<<endl<<endl;
+		}
     }
 
 	return 0;
