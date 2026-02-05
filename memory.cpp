@@ -37,7 +37,7 @@ void genera_coppie(char carte[], int d) {
 		}
 	}
 }
-// funzione che mescola le lettere generate
+//funzione che mescola le lettere generate
 void mescola_lettere(char carte[], int d) {
 
 	//ciclo che si ripete tante volte quante la dimensione
@@ -52,7 +52,6 @@ void mescola_lettere(char carte[], int d) {
 	}
 
 }
-
 
 int main(int argc, char** argv) {
 
@@ -115,14 +114,33 @@ int main(int argc, char** argv) {
 	    }
 	}
 	
-	cout<<"\ninserisci le coordinate della carta che vuoi girare\n";
+	cout<<"\ninserisci le coordinate della carta che vuoi girare\n\n";
 	int riga_carta, colonna_carta;
+	//array che mi serve per spostare il cursore correttamente sulla riga con massimo 7 righe (stessa cosa per le colonne)
+	/*come funziona: ogni posizione contiene il valore da sommare al numero della riga inserito dall'utente
+		esempio: inserisco 1; voglio girare una casella alla riga 1 del memory, che in realtà parte dalla riga 6 dello schermo
+		allora quando vado ad indicare la posizione del cursore per visualizzare la casella, sommo al valore inserito il numero contenuto
+		nella rispettiva posizione dell'array. esempio inserisco riga_carta=1 --> visualizzerò la riga che corrisponde a riga_carta+valori_riga[riga_carta]
+		cioè 1+valori_riga[1], che è uguale a 1+5=6, cioè la prima riga da cui partono le caselle del memory
+	*/
+	int somma_riga[7]={0,5,6,7,8,9,10}, somma_colonna[7]={0,0,3,6,9,12,15};
 	cout<<"riga: ";
 	cin>>riga_carta;
 	cout<<"colonna: ";
 	cin>>colonna_carta;
+	cout<<endl;
+	//salvo la posizione del cursore in fondo allo schermo
+	cout<<"\33[s";
+	//metto il cursore nella posizione della casella che voglio visualizzare e faccio vedere la lettera nascosta
+ 	cout<<"\33["<<riga_carta+somma_riga[riga_carta]<<";"<<colonna_carta+somma_colonna[colonna_carta]<<"H";
+	cout<<tabella[riga_carta][colonna_carta];
+	//aspetto 5 sec
+	sleep(5);
+	//rimetto il cursore nella posizione della lettera e la nascondo di nuovo con un asterisco
+	cout<<"\33["<<riga_carta+somma_riga[riga_carta]<<";"<<colonna_carta+somma_colonna[colonna_carta]<<"H";
+	cout<<'*';
+	//riporto il cursore alla fine dello schermo
+	cout<<"\33[u";
 	
-	//cout<<"\33["<<riga_carta+5<<";"<<colonna_carta+3<<"H";
-
 	return 0;
 }
