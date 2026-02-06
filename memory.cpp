@@ -59,7 +59,8 @@ int main(int argc, char** argv) {
 	cout<<"GIOCO DEL MEMORY!!\n\n";
 
 	//generare casualmente la dimensione della matrice
-	int dimensione=rand()%4+4;
+	//int dimensione=rand()%4+4;
+	int dimensione=5;
 	//matrice quadrata di caratteri
 	//metto la grandezza al massimo e utilizzo solo quelle che mi servono
 	char tabella[7][7];
@@ -133,7 +134,7 @@ int main(int argc, char** argv) {
 	cout<<"\33[s";
 	//metto il cursore nella posizione della casella che voglio visualizzare e faccio vedere la lettera nascosta
  	cout<<"\33["<<riga_carta+somma_riga[riga_carta]<<";"<<colonna_carta+somma_colonna[colonna_carta]<<"H";
-	cout<<tabella[riga_carta][colonna_carta];
+	cout<<tabella[riga_carta-1][colonna_carta-1];
 	//aspetto 5 sec
 	sleep(5);
 	//rimetto il cursore nella posizione della lettera e la nascondo di nuovo con un asterisco
@@ -144,3 +145,4 @@ int main(int argc, char** argv) {
 	
 	return 0;
 }
+
