@@ -87,7 +87,6 @@ int main(int argc, char** argv) {
 	    for(int j=0; j<dimensione; j++){
 	        
 	        tabella[i][j]=carte[colonna];
-	        //cout<<tabella[i][j]<<"   ";
 	        cout<<"*"<<"   ";
 	        colonna++;
 	        if(colonna%dimensione==0){
@@ -108,19 +107,23 @@ int main(int argc, char** argv) {
 	int somma_riga[7]={0,5,6,7,8,9,10}, somma_colonna[7]={0,0,3,6,9,12,15};
 	//50 tentativi al massimo
 	for(int i=0; i<50; i++){
+		//incremento i tentativi
 		tentativi++;
-		cout<<"COPPIA "<<i+1<<endl;
+		//i+1 dice quante coppie si sono girate
+		cout<<"TENTATIVO "<<i+1<<endl;
 		cout<<"riga della prima carta: ";
 		cin>>riga1;
 		cout<<"colonna della prima carta: ";
 		cin>>colonna1;
 		cout<<endl;
-		//salvo la posizione del cursore in fondo allo schermo
+		//salvo la posizione del cursore subito dopo aver inserito le coordinate
 		cout<<"\33[s";
 		//metto il cursore nella posizione della casella che voglio visualizzare e faccio vedere la lettera nascosta
  		cout<<"\33["<<riga1+somma_riga[riga1]<<";"<<colonna1+somma_colonna[colonna1]<<"H";
 		cout<<tabella[riga1-1][colonna1-1];
+		//riporto il cursore per continuare l'inserimento delle coordinate
 		cout<<"\33[u";
+
 		//ripeto per due volte perchè devo girare due carte alla volta
 		cout<<"riga della seconda carta: ";
 		cin>>riga2;
@@ -128,27 +131,42 @@ int main(int argc, char** argv) {
 		cin>>colonna2;
 		cout<<endl;
 		//salvo la posizione del cursore in fondo allo schermo
-		cout<<"\33[s";
 		//metto il cursore nella posizione della casella che voglio visualizzare e faccio vedere la lettera nascosta
  		cout<<"\33["<<riga2+somma_riga[riga2]<<";"<<colonna2+somma_colonna[colonna2]<<"H";
 		cout<<tabella[riga2-1][colonna2-1];
 		
 		//aspetto 5 sec
-		sleep(5);
+		sleep(4);
 		//rimetto il cursore nella posizione della lettera e la nascondo di nuovo con un asterisco per entrambe le carte
 		cout<<"\33["<<riga1+somma_riga[riga1]<<";"<<colonna1+somma_colonna[colonna1]<<"H";
 		cout<<'*';
 		cout<<"\33["<<riga2+somma_riga[riga2]<<";"<<colonna2+somma_colonna[colonna2]<<"H";
-		cout<<'*';
-		//riporto il cursore alla fine dello schermo
-		cout<<"\33[u";	
+		cout<<'*';	
 		
+		//riporto il cursore per inserire le coordinate della coppia di carte successiva
+		cout<<"\33[19;1H";
+		//cancello tutto quello che viene dopo
+		cout<<"\33[0J";
+		
+		//se entrambe le carte scelte sono uguali indovino una coppia
 		if(tabella[riga1-1][colonna1-1]==tabella[riga2-1][colonna2-1]){
-			cout<<"indovinato!"<<endl<<endl;
+			sleep(0);
+			cout<<"hai indovinato "<<coppie+1<<"/12 coppie!!"<<endl<<endl;
+			//se indovino non copro con gli asterischi ma visualizzo le carte indovinate
+			cout<<"\33["<<riga1+somma_riga[riga1]<<";"<<colonna1+somma_colonna[colonna1]<<"H";
+			cout<<tabella[riga1-1][colonna1-1];
+			cout<<"\33["<<riga2+somma_riga[riga2]<<";"<<colonna2+somma_colonna[colonna2]<<"H";
+			cout<<tabella[riga2-1][colonna2-1];
+			//riporto il cursore per inserire le coordinate della coppia di carte successiva sotto le scritta "indovinato"
+			cout<<"\33[21;1H";
+			//cancello tutto quello che viene dopo
+			cout<<"\33[0J";
 			coppie++;
 			
-			if(coppie==dimensione*dimensione/2){
+			//se il numero delle coppie indovinate e quello delle coppie totali allora il gioco finisce
+			if(coppie==12){
 				cout<<"HAI VINTO! \nhai indovinato tutte le coppie in: "<<tentativi<<" tentativi";
+				i=50;
 			}
 		}	
 	}
